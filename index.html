@@ -44,6 +44,7 @@
             z-index: 100;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+        nav .nav-inner { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; }
         nav ul { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
         nav a {
             display: block;
@@ -55,6 +56,22 @@
             transition: color 0.2s, background 0.2s;
         }
         nav a:hover { color: #4ca1af; background: #f0f8fa; }
+
+        /* 언어 선택 버튼 */
+        .lang-selector { display: flex; gap: 4px; padding: 8px 12px; }
+        .site-lang-btn {
+            padding: 4px 10px;
+            border: 1.5px solid #ddd;
+            border-radius: 14px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #888;
+            transition: all 0.2s;
+        }
+        .site-lang-btn:hover { border-color: #4ca1af; color: #4ca1af; }
+        .site-lang-btn.active { background: #4ca1af; color: #fff; border-color: #4ca1af; }
 
         /* 섹션 공통 */
         section { padding: 64px 20px; max-width: 1000px; margin: 0 auto; }
@@ -205,6 +222,8 @@
             .gallery { grid-template-columns: repeat(2, 1fr); }
             .gallery-item.large { grid-column: span 2; grid-row: span 1; }
             .space-info, .info-grid, .capacity-grid, .location-content { grid-template-columns: 1fr; }
+            .lang-selector { padding: 4px 8px; }
+            .site-lang-btn { padding: 3px 8px; font-size: 0.72rem; }
         }
     </style>
 </head>
@@ -214,115 +233,123 @@
 <header class="hero">
     <div class="hero-bg"></div>
     <h1>오즈 하우스</h1>
-    <p>서울 마포 망원 | 독채 전체 | 최대 15인 | 방 4 · 욕실 2.5 · 거실 2</p>
+    <p data-i18n="hero_sub">서울 마포 망원 | 독채 전체 | 최대 15인 | 방 4 · 욕실 2.5 · 거실 2</p>
     <div class="badge">Airbnb 5.0 / 홍대 6분 / 망리단길 / 망원한강공원</div>
 </header>
 
 <!-- 네비게이션 -->
 <nav>
-    <ul>
-        <li><a href="#about">소개</a></li>
-        <li><a href="#gallery">사진</a></li>
-        <li><a href="#space">공간</a></li>
-        <li><a href="#checkin">체크인</a></li>
-        <li><a href="#rules">이용규칙</a></li>
-        <li><a href="#facilities">시설</a></li>
-        <li><a href="#guide">이용가이드</a></li>
-        <li><a href="#delivery">배달</a></li>
-        <li><a href="#food">맛집</a></li>
-        <li><a href="#location">위치</a></li>
-        <li><a href="#contact">예약</a></li>
-    </ul>
+    <div class="nav-inner">
+        <ul>
+            <li><a href="#about" data-i18n="nav_about">소개</a></li>
+            <li><a href="#gallery" data-i18n="nav_gallery">사진</a></li>
+            <li><a href="#space" data-i18n="nav_space">공간</a></li>
+            <li><a href="#checkin" data-i18n="nav_checkin">체크인</a></li>
+            <li><a href="#rules" data-i18n="nav_rules">이용규칙</a></li>
+            <li><a href="#facilities" data-i18n="nav_facilities">시설</a></li>
+            <li><a href="#guide" data-i18n="nav_guide">이용가이드</a></li>
+            <li><a href="#delivery" data-i18n="nav_delivery">배달</a></li>
+            <li><a href="#food" data-i18n="nav_food">맛집</a></li>
+            <li><a href="#location" data-i18n="nav_location">위치</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">예약</a></li>
+        </ul>
+        <div class="lang-selector">
+            <button class="site-lang-btn active" data-lang="ko" onclick="setLang('ko')">KO</button>
+            <button class="site-lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            <button class="site-lang-btn" data-lang="zh" onclick="setLang('zh')">ZH</button>
+            <button class="site-lang-btn" data-lang="ja" onclick="setLang('ja')">JA</button>
+        </div>
+    </div>
 </nav>
 
 <!-- 소개 -->
 <section id="about">
-    <h2>Welcome to Oz House</h2>
-    <p class="about-text">
+    <h2 data-i18n="about_title">Welcome to Oz House</h2>
+    <p class="about-text" data-i18n="about_text">
         망원 한강과 홍대의 감성을 모두 즐길 수 있는 이 공간에 오신 것을 환영합니다.<br>
         새로 리모델링한 편안하고 아늑한 공간에서<br>
         가족, 친구와 함께 특별한 시간을 보내세요.
     </p>
     <div class="highlights">
         <div class="highlight-item">
-            <div class="num">15인</div>
-            <div class="label">최대 수용</div>
+            <div class="num" data-i18n="hl_guests_num">15인</div>
+            <div class="label" data-i18n="hl_guests">최대 수용</div>
         </div>
         <div class="highlight-item">
-            <div class="num">4개</div>
-            <div class="label">침실</div>
+            <div class="num" data-i18n="hl_beds_num">4개</div>
+            <div class="label" data-i18n="hl_beds">침실</div>
         </div>
         <div class="highlight-item">
-            <div class="num">2.5개</div>
-            <div class="label">욕실</div>
+            <div class="num" data-i18n="hl_baths_num">2.5개</div>
+            <div class="label" data-i18n="hl_baths">욕실</div>
         </div>
         <div class="highlight-item">
-            <div class="num">2개</div>
-            <div class="label">거실</div>
+            <div class="num" data-i18n="hl_living_num">2개</div>
+            <div class="label" data-i18n="hl_living">거실</div>
         </div>
         <div class="highlight-item">
-            <div class="num">옥상</div>
-            <div class="label">테라스</div>
+            <div class="num" data-i18n="hl_terrace_num">옥상</div>
+            <div class="label" data-i18n="hl_terrace">테라스</div>
         </div>
         <div class="highlight-item">
             <div class="num">5.0</div>
-            <div class="label">Airbnb 평점</div>
+            <div class="label" data-i18n="hl_rating">Airbnb 평점</div>
         </div>
     </div>
 </section>
 
 <!-- 사진 갤러리 -->
 <section id="gallery" class="section-wide">
-    <h2>공간 둘러보기</h2>
-    <p class="section-desc">사진을 클릭하면 크게 볼 수 있습니다</p>
+    <h2 data-i18n="gallery_title">공간 둘러보기</h2>
+    <p class="section-desc" data-i18n="gallery_desc">사진을 클릭하면 크게 볼 수 있습니다</p>
     <div class="gallery">
         <div class="gallery-item large" onclick="openLightbox(0)">
             <img src="KakaoTalk_20260216_191144787_06.jpg" alt="거실" loading="lazy">
-            <div class="caption">4층 거실</div>
+            <div class="caption" data-i18n="cap_living4">4층 거실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(1)">
             <img src="KakaoTalk_20260216_191144787_09.jpg" alt="라운지" loading="lazy">
-            <div class="caption">라운지</div>
+            <div class="caption" data-i18n="cap_lounge">라운지</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(2)">
             <img src="KakaoTalk_20260216_191144787_10.jpg" alt="창가 풍경" loading="lazy">
-            <div class="caption">창가 풍경</div>
+            <div class="caption" data-i18n="cap_window">창가 풍경</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(3)">
             <img src="KakaoTalk_20260216_191144787_13.jpg" alt="계단 & 홀" loading="lazy">
-            <div class="caption">계단 & 홀</div>
+            <div class="caption" data-i18n="cap_stairs">계단 & 홀</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(4)">
             <img src="KakaoTalk_20260216_191144787_12.jpg" alt="5층 거실" loading="lazy">
-            <div class="caption">5층 거실</div>
+            <div class="caption" data-i18n="cap_living5">5층 거실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(5)">
             <img src="KakaoTalk_20260216_191144787_08.jpg" alt="침실" loading="lazy">
-            <div class="caption">침실</div>
+            <div class="caption" data-i18n="cap_bedroom">침실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(6)">
             <img src="KakaoTalk_20260216_191144787_11.jpg" alt="침실" loading="lazy">
-            <div class="caption">침실</div>
+            <div class="caption" data-i18n="cap_bedroom">침실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(7)">
             <img src="KakaoTalk_20260216_191144787_07.jpg" alt="주방 & 다이닝" loading="lazy">
-            <div class="caption">주방 & 다이닝</div>
+            <div class="caption" data-i18n="cap_kitchen_dining">주방 & 다이닝</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(8)">
             <img src="KakaoTalk_20260216_191144787_14.jpg" alt="주방" loading="lazy">
-            <div class="caption">주방</div>
+            <div class="caption" data-i18n="cap_kitchen">주방</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(9)">
             <img src="KakaoTalk_20260216_191144787_01.jpg" alt="욕실" loading="lazy">
-            <div class="caption">욕실</div>
+            <div class="caption" data-i18n="cap_bathroom">욕실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(10)">
             <img src="KakaoTalk_20260216_191144787_02.jpg" alt="욕실" loading="lazy">
-            <div class="caption">욕실</div>
+            <div class="caption" data-i18n="cap_bathroom">욕실</div>
         </div>
         <div class="gallery-item" onclick="openLightbox(11)">
             <img src="KakaoTalk_20260216_191144787.jpg" alt="옥상 테라스" loading="lazy">
-            <div class="caption">옥상 테라스</div>
+            <div class="caption" data-i18n="cap_rooftop">옥상 테라스</div>
         </div>
     </div>
 </section>
@@ -337,73 +364,73 @@
 
 <!-- 공간 안내 -->
 <section id="space">
-    <h2>공간 안내</h2>
-    <p class="section-desc">예약 인원에 따라 이용 가능한 공간이 달라집니다</p>
+    <h2 data-i18n="space_title">공간 안내</h2>
+    <p class="section-desc" data-i18n="space_desc">예약 인원에 따라 이용 가능한 공간이 달라집니다</p>
 
     <!-- 인원별 안내 -->
     <div class="capacity-grid">
         <div class="capacity-card">
-            <h4>7인 이하</h4>
+            <h4 data-i18n="cap7_title">7인 이하</h4>
             <ul>
-                <li>4층만 오픈</li>
-                <li>방 2개 (각 방 퀸침대 2개씩, 총 4개)</li>
-                <li>넓은 거실</li>
-                <li>넓은 주방</li>
-                <li>욕실 2개</li>
+                <li data-i18n="cap7_1">4층만 오픈</li>
+                <li data-i18n="cap7_2">방 2개 (각 방 퀸침대 2개씩, 총 4개)</li>
+                <li data-i18n="cap7_3">넓은 거실</li>
+                <li data-i18n="cap7_4">넓은 주방</li>
+                <li data-i18n="cap7_5">욕실 2개</li>
             </ul>
         </div>
         <div class="capacity-card highlight">
-            <h4>8인 이상</h4>
+            <h4 data-i18n="cap8_title">8인 이상</h4>
             <ul>
-                <li>4층 + 5층 전체 오픈</li>
-                <li>방 4개 (퀸침대 7개 + 소파베드 1개)</li>
-                <li>욕실 2.5개</li>
-                <li>5층 욕실은 세면대·변기만 이용 가능 (샤워 불가)</li>
+                <li data-i18n="cap8_1">4층 + 5층 전체 오픈</li>
+                <li data-i18n="cap8_2">방 4개 (퀸침대 7개 + 소파베드 1개)</li>
+                <li data-i18n="cap8_3">욕실 2.5개</li>
+                <li data-i18n="cap8_4">5층 욕실은 세면대·변기만 이용 가능 (샤워 불가)</li>
             </ul>
         </div>
     </div>
 
     <div class="capacity-note">
-        <p>예약 인원에 따라 공간이 자동으로 조정됩니다.</p>
-        <p>예약 인원보다 많은 공간 사용 시 <strong>추가 요금</strong>이 발생할 수 있습니다.</p>
-        <p>인원 변경 시 미리 알려주시면 그에 맞춰 공간을 준비해드립니다.</p>
-        <p><strong style="color:#e74c3c;">가구 이동 절대 금지</strong> 부탁드립니다.</p>
+        <p data-i18n="cap_note1">예약 인원에 따라 공간이 자동으로 조정됩니다.</p>
+        <p data-i18n="cap_note2">예약 인원보다 많은 공간 사용 시 <strong>추가 요금</strong>이 발생할 수 있습니다.</p>
+        <p data-i18n="cap_note3">인원 변경 시 미리 알려주시면 그에 맞춰 공간을 준비해드립니다.</p>
+        <p data-i18n="cap_note4"><strong style="color:#e74c3c;">가구 이동 절대 금지</strong> 부탁드립니다.</p>
     </div>
 
     <!-- 평면도 -->
     <div class="space-info" style="margin-top:32px;">
         <div style="display:flex; flex-direction:column; gap:16px;">
             <div class="floor-plan">
-                <h3>4층</h3>
-                <p>침실 2 + 거실 + 주방 + 다이닝룸 + 욕실</p>
+                <h3 data-i18n="floor4">4층</h3>
+                <p data-i18n="floor4_desc">침실 2 + 거실 + 주방 + 다이닝룸 + 욕실</p>
                 <img src="KakaoTalk_20260216_191144787_04.jpg" alt="4층 평면도">
             </div>
             <div class="floor-plan">
-                <h3>5층</h3>
-                <p>침실 2 + 거실 + 샤워실 + 옥상 테라스</p>
+                <h3 data-i18n="floor5">5층</h3>
+                <p data-i18n="floor5_desc">침실 2 + 거실 + 샤워실 + 옥상 테라스</p>
                 <img src="KakaoTalk_20260216_191144787_05.jpg" alt="5층 평면도">
             </div>
         </div>
         <div class="space-details">
             <div class="space-card">
-                <h4>4층 - 침실 (방 2개)</h4>
-                <p>각 방에 퀸 베드 2개씩 배치</p>
+                <h4 data-i18n="sp4_bed">4층 - 침실 (방 2개)</h4>
+                <p data-i18n="sp4_bed_d">각 방에 퀸 베드 2개씩 배치</p>
             </div>
             <div class="space-card">
-                <h4>4층 - 거실 & 주방 & 다이닝</h4>
-                <p>넓은 소파, TV, 6인용 식탁<br>냉장고, 전자레인지, 세탁기/건조기 완비</p>
+                <h4 data-i18n="sp4_lkd">4층 - 거실 & 주방 & 다이닝</h4>
+                <p data-i18n="sp4_lkd_d">넓은 소파, TV, 6인용 식탁<br>냉장고, 전자레인지, 세탁기/건조기 완비</p>
             </div>
             <div class="space-card">
-                <h4>5층 - 침실 (방 2개) & 거실</h4>
-                <p>퀸침대 3개 + 소파베드 1개<br>넓은 거실 공간</p>
+                <h4 data-i18n="sp5_bed">5층 - 침실 (방 2개) & 거실</h4>
+                <p data-i18n="sp5_bed_d">퀸침대 3개 + 소파베드 1개<br>넓은 거실 공간</p>
             </div>
             <div class="space-card">
-                <h4>욕실 2.5개</h4>
-                <p>4층 욕실 2개 (샤워 가능)<br>5층 반욕실 1개 (세면대+변기, 샤워 불가)</p>
+                <h4 data-i18n="sp_bath">욕실 2.5개</h4>
+                <p data-i18n="sp_bath_d">4층 욕실 2개 (샤워 가능)<br>5층 반욕실 1개 (세면대+변기, 샤워 불가)</p>
             </div>
             <div class="space-card">
-                <h4>옥상 테라스</h4>
-                <p>테이블과 의자가 갖춰진 넓은 야외 공간 (약 62m²)</p>
+                <h4 data-i18n="sp_roof">옥상 테라스</h4>
+                <p data-i18n="sp_roof_d">테이블과 의자가 갖춰진 넓은 야외 공간 (약 62m²)</p>
             </div>
         </div>
     </div>
@@ -411,183 +438,183 @@
 
 <!-- 체크인/아웃 -->
 <section id="checkin">
-    <h2>체크인 & 체크아웃</h2>
-    <p class="section-desc">셀프 체크인으로 편리하게 입실하세요</p>
+    <h2 data-i18n="checkin_title">체크인 & 체크아웃</h2>
+    <p class="section-desc" data-i18n="checkin_desc">셀프 체크인으로 편리하게 입실하세요</p>
     <div class="info-grid">
         <div class="info-card" style="text-align:center;">
-            <h4>체크인</h4>
+            <h4 data-i18n="checkin_label">체크인</h4>
             <div class="time">PM 4:00</div>
-            <p>오후 4시부터 입실 가능</p>
+            <p data-i18n="checkin_after">오후 4시부터 입실 가능</p>
         </div>
         <div class="info-card" style="text-align:center;">
-            <h4>체크아웃</h4>
+            <h4 data-i18n="checkout_label">체크아웃</h4>
             <div class="time">AM 11:00</div>
-            <p>오전 11시까지 퇴실</p>
+            <p data-i18n="checkout_before">오전 11시까지 퇴실</p>
         </div>
     </div>
     <div class="capacity-note" style="margin-top:24px;">
-        <p>체크아웃 전 <strong>간단한 정리</strong> 부탁드립니다.</p>
-        <p>예약 인원보다 많은 인원/공간 사용 시 추가 요금이 발생할 수 있습니다.</p>
+        <p data-i18n="checkin_note1">체크아웃 전 <strong>간단한 정리</strong> 부탁드립니다.</p>
+        <p data-i18n="checkin_note2">예약 인원보다 많은 인원/공간 사용 시 추가 요금이 발생할 수 있습니다.</p>
     </div>
 </section>
 
 <!-- 이용 규칙 -->
 <section id="rules">
-    <h2>숙소 이용 규칙</h2>
-    <p class="section-desc">쾌적한 숙박을 위해 아래 규칙을 지켜주세요</p>
+    <h2 data-i18n="rules_title">숙소 이용 규칙</h2>
+    <p class="section-desc" data-i18n="rules_desc">쾌적한 숙박을 위해 아래 규칙을 지켜주세요</p>
     <div class="rules-list">
         <div class="rule-item">
             <div class="rule-icon">&#x1F6AD;</div>
-            <div class="rule-text"><strong>완전 금연</strong> — 실내/옥상 모두 금연입니다. 위반 시 벌금 100만원이 부과됩니다.</div>
+            <div class="rule-text" data-i18n="rule1"><strong>완전 금연</strong> — 실내/옥상 모두 금연입니다. 위반 시 벌금 100만원이 부과됩니다.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F9F3;</div>
-            <div class="rule-text"><strong>캐리어 바퀴 커버 착용</strong> — 숙소 도착하자마자 캐리어 바퀴 커버를 착용해주세요.</div>
+            <div class="rule-text" data-i18n="rule2"><strong>캐리어 바퀴 커버 착용</strong> — 숙소 도착하자마자 캐리어 바퀴 커버를 착용해주세요.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F45F;</div>
-            <div class="rule-text"><strong>실내 신발 금지</strong> — 입구에서 신발을 벗어주세요.</div>
+            <div class="rule-text" data-i18n="rule3"><strong>실내 신발 금지</strong> — 입구에서 신발을 벗어주세요.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F389;</div>
-            <div class="rule-text"><strong>파티 금지</strong> — 파티 및 과도한 소음은 금지입니다.</div>
+            <div class="rule-text" data-i18n="rule4"><strong>파티 금지</strong> — 파티 및 과도한 소음은 금지입니다.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F372;</div>
-            <div class="rule-text"><strong>강한 냄새 조리 금지</strong> — 고기·생선류 등 강한 냄새가 나는 조리는 삼가주세요.</div>
+            <div class="rule-text" data-i18n="rule5"><strong>강한 냄새 조리 금지</strong> — 고기·생선류 등 강한 냄새가 나는 조리는 삼가주세요.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F30C;</div>
-            <div class="rule-text"><strong>밤 10시 이후 소음 자제</strong> — 이웃을 위해 조용히 해주세요.</div>
+            <div class="rule-text" data-i18n="rule6"><strong>밤 10시 이후 소음 자제</strong> — 이웃을 위해 조용히 해주세요.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F377;</div>
-            <div class="rule-text"><strong>옥상 음주 금지</strong> — 옥상 테라스에서의 음주는 금지됩니다.</div>
+            <div class="rule-text" data-i18n="rule7"><strong>옥상 음주 금지</strong> — 옥상 테라스에서의 음주는 금지됩니다.</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F4F9;</div>
-            <div class="rule-text"><strong>외부 CCTV</strong> — 외부 출입구에 CCTV가 설치되어 있습니다 (실내 미설치).</div>
+            <div class="rule-text" data-i18n="rule8"><strong>외부 CCTV</strong> — 외부 출입구에 CCTV가 설치되어 있습니다 (실내 미설치).</div>
         </div>
         <div class="rule-item">
             <div class="rule-icon">&#x1F465;</div>
-            <div class="rule-text"><strong>방문객 사전 고지</strong> — 예약 인원 외 출입은 반드시 사전에 알려주세요.</div>
+            <div class="rule-text" data-i18n="rule9"><strong>방문객 사전 고지</strong> — 예약 인원 외 출입은 반드시 사전에 알려주세요.</div>
         </div>
     </div>
 </section>
 
 <!-- 편의시설 & 어메니티 -->
 <section id="facilities">
-    <h2>편의시설 & 어메니티</h2>
-    <p class="section-desc">편안한 숙박을 위한 시설을 갖추고 있습니다</p>
+    <h2 data-i18n="fac_title">편의시설 & 어메니티</h2>
+    <p class="section-desc" data-i18n="fac_desc">편안한 숙박을 위한 시설을 갖추고 있습니다</p>
     <div class="facilities">
         <div class="facility">
             <div class="icon">&#x1F4F6;</div>
-            <h4>무료 Wi-Fi</h4>
-            <p>전 공간 고속 인터넷</p>
+            <h4 data-i18n="fac_wifi">무료 Wi-Fi</h4>
+            <p data-i18n="fac_wifi_d">전 공간 고속 인터넷</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F4FA;</div>
-            <h4>TV & 빔프로젝터</h4>
-            <p>넷플릭스, 유튜브</p>
+            <h4 data-i18n="fac_tv">TV & 빔프로젝터</h4>
+            <p data-i18n="fac_tv_d">넷플릭스, 유튜브</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F373;</div>
-            <h4>주방</h4>
-            <p>냉장고, 전자레인지, 식기류</p>
+            <h4 data-i18n="fac_kitchen">주방</h4>
+            <p data-i18n="fac_kitchen_d">냉장고, 전자레인지, 식기류</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F455;</div>
-            <h4>세탁기 / 건조기</h4>
-            <p>드럼 세탁기 & 건조기</p>
+            <h4 data-i18n="fac_laundry">세탁기 / 건조기</h4>
+            <p data-i18n="fac_laundry_d">드럼 세탁기 & 건조기</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F6BF;</div>
-            <h4>욕실 2.5개</h4>
-            <p>샤워 시설 및 어메니티</p>
+            <h4 data-i18n="fac_bath">욕실 2.5개</h4>
+            <p data-i18n="fac_bath_d">샤워 시설 및 어메니티</p>
         </div>
         <div class="facility">
             <div class="icon">&#x2600;</div>
-            <h4>옥상 테라스</h4>
-            <p>테이블, 의자, 차양막</p>
+            <h4 data-i18n="fac_terrace">옥상 테라스</h4>
+            <p data-i18n="fac_terrace_d">테이블, 의자, 차양막</p>
         </div>
         <div class="facility">
             <div class="icon">&#x2744;</div>
-            <h4>냉난방</h4>
-            <p>에어컨 / 히터 완비</p>
+            <h4 data-i18n="fac_ac">냉난방</h4>
+            <p data-i18n="fac_ac_d">에어컨 / 히터 완비</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F6AA;</div>
-            <h4>셀프 체크인</h4>
-            <p>비대면 입실</p>
+            <h4 data-i18n="fac_checkin">셀프 체크인</h4>
+            <p data-i18n="fac_checkin_d">비대면 입실</p>
         </div>
         <div class="facility">
             <div class="icon">&#x2708;</div>
-            <h4>공항 픽업</h4>
-            <p>요청 시 가능</p>
+            <h4 data-i18n="fac_pickup">공항 픽업</h4>
+            <p data-i18n="fac_pickup_d">요청 시 가능</p>
         </div>
         <div class="facility">
             <div class="icon">&#x1F9FA;</div>
-            <h4>피크닉 매트</h4>
-            <p>한강공원 나들이용</p>
+            <h4 data-i18n="fac_picnic">피크닉 매트</h4>
+            <p data-i18n="fac_picnic_d">한강공원 나들이용</p>
         </div>
     </div>
 
-    <h3 style="text-align:center; margin-top:36px;">제공 어메니티</h3>
+    <h3 style="text-align:center; margin-top:36px;" data-i18n="amenity_title">제공 어메니티</h3>
     <div class="amenity-list">
-        <span class="amenity-tag">샴푸</span>
-        <span class="amenity-tag">트리트먼트</span>
-        <span class="amenity-tag">바디워시</span>
-        <span class="amenity-tag">일회용 칫솔</span>
-        <span class="amenity-tag">치약</span>
-        <span class="amenity-tag">일회용 샤워타월</span>
-        <span class="amenity-tag">클렌징 워터</span>
-        <span class="amenity-tag">화장 솜</span>
-        <span class="amenity-tag">면봉</span>
-        <span class="amenity-tag">수건</span>
-        <span class="amenity-tag">드라이기</span>
+        <span class="amenity-tag" data-i18n="am_shampoo">샴푸</span>
+        <span class="amenity-tag" data-i18n="am_treatment">트리트먼트</span>
+        <span class="amenity-tag" data-i18n="am_bodywash">바디워시</span>
+        <span class="amenity-tag" data-i18n="am_toothbrush">일회용 칫솔</span>
+        <span class="amenity-tag" data-i18n="am_toothpaste">치약</span>
+        <span class="amenity-tag" data-i18n="am_towelette">일회용 샤워타월</span>
+        <span class="amenity-tag" data-i18n="am_cleansing">클렌징 워터</span>
+        <span class="amenity-tag" data-i18n="am_cottonpad">화장 솜</span>
+        <span class="amenity-tag" data-i18n="am_swab">면봉</span>
+        <span class="amenity-tag" data-i18n="am_towel">수건</span>
+        <span class="amenity-tag" data-i18n="am_dryer">드라이기</span>
     </div>
-    <p style="text-align:center; color:#888; font-size:0.85rem; margin-top:12px;">수건은 고온 단독 세탁하여 준비하니 안심하고 사용하세요.</p>
+    <p style="text-align:center; color:#888; font-size:0.85rem; margin-top:12px;" data-i18n="am_note">수건은 고온 단독 세탁하여 준비하니 안심하고 사용하세요.</p>
 </section>
 
 <!-- 이용 가이드 -->
 <section id="guide">
-    <h2>이용 가이드</h2>
-    <p class="section-desc">빔프로젝터, 피크닉매트, 택시 이용법</p>
+    <h2 data-i18n="guide_title">이용 가이드</h2>
+    <p class="section-desc" data-i18n="guide_desc">빔프로젝터, 피크닉매트, 택시 이용법</p>
     <div class="guide-cards">
         <div class="guide-card">
-            <h4>&#x1F3AC; 빔프로젝터 사용법</h4>
+            <h4 data-i18n="g_proj_title">&#x1F3AC; 빔프로젝터 사용법</h4>
             <ol>
-                <li>전원 버튼 ON</li>
-                <li>HDMI 케이블 연결</li>
-                <li>리모컨으로 HDMI 입력 소스 선택</li>
-                <li>넷플릭스/유튜브는 개인 계정 로그인</li>
+                <li data-i18n="g_proj_1">전원 버튼 ON</li>
+                <li data-i18n="g_proj_2">HDMI 케이블 연결</li>
+                <li data-i18n="g_proj_3">리모컨으로 HDMI 입력 소스 선택</li>
+                <li data-i18n="g_proj_4">넷플릭스/유튜브는 개인 계정 로그인</li>
             </ol>
-            <div class="tip">
+            <div class="tip" data-i18n="g_proj_tip">
                 사용 후 반드시 전원 OFF 해주세요.<br>
                 렌즈를 직접 손으로 만지지 마세요.<br>
                 연결이 안 될 경우 리모컨으로 입력 소스를 확인 후 다시 시도해주세요.
             </div>
         </div>
         <div class="guide-card">
-            <h4>&#x1F9FA; 피크닉 매트 이용</h4>
+            <h4 data-i18n="g_picnic_title">&#x1F9FA; 피크닉 매트 이용</h4>
             <ol>
-                <li>한강공원 이용 시 자유롭게 사용 가능</li>
-                <li>사용 후 모래/먼지 제거 후 접어서 보관</li>
-                <li>젖었을 경우 완전히 말린 후 실내 보관</li>
+                <li data-i18n="g_picnic_1">한강공원 이용 시 자유롭게 사용 가능</li>
+                <li data-i18n="g_picnic_2">사용 후 모래/먼지 제거 후 접어서 보관</li>
+                <li data-i18n="g_picnic_3">젖었을 경우 완전히 말린 후 실내 보관</li>
             </ol>
-            <div class="tip">
+            <div class="tip" data-i18n="g_picnic_tip">
                 한강공원에서 피크닉을 즐기실 때, 근처에 음료/간식 판매점도 있으니 참고하세요.
             </div>
         </div>
         <div class="guide-card">
-            <h4>&#x1F695; 택시 부르는 방법</h4>
+            <h4 data-i18n="g_taxi_title">&#x1F695; 택시 부르는 방법</h4>
             <ol>
-                <li>카카오T 앱 다운로드</li>
-                <li>출발지 자동 설정 확인</li>
-                <li>목적지 입력</li>
-                <li>카드 등록 후 호출</li>
+                <li data-i18n="g_taxi_1">카카오T 앱 다운로드</li>
+                <li data-i18n="g_taxi_2">출발지 자동 설정 확인</li>
+                <li data-i18n="g_taxi_3">목적지 입력</li>
+                <li data-i18n="g_taxi_4">카드 등록 후 호출</li>
             </ol>
-            <div class="tip">
+            <div class="tip" data-i18n="g_taxi_tip">
                 기사님과 통화가 어려울 경우:<br>
                 "Please come to the front of the building." 라고 보여주세요.
             </div>
@@ -597,10 +624,10 @@
 
 <!-- 배달 주문 가이드 -->
 <section id="delivery">
-    <h2>배달 주문 방법</h2>
+    <h2 data-i18n="delivery_title">배달 주문 방법</h2>
     <p class="section-desc">
-        태블릿 PC의 배달의민족 앱으로 간편하게 주문하세요<br>
-        <strong>배달 주소: 서울 마포구 희우정로16길 16 / 건물 1층 앞에서 수령</strong>
+        <span data-i18n="delivery_desc">태블릿 PC의 배달의민족 앱으로 간편하게 주문하세요</span><br>
+        <strong data-i18n="delivery_addr">배달 주소: 서울 마포구 희우정로16길 16 / 건물 1층 앞에서 수령</strong>
     </p>
 
     <div class="delivery-lang-tabs">
@@ -781,39 +808,39 @@
 
 <!-- 주변 맛집 & 명소 -->
 <section id="food">
-    <h2>주변 맛집 & 명소 추천</h2>
-    <p class="section-desc">도보 또는 대중교통 10~20분 거리</p>
+    <h2 data-i18n="food_title">주변 맛집 & 명소 추천</h2>
+    <p class="section-desc" data-i18n="food_desc">도보 또는 대중교통 10~20분 거리</p>
     <div class="restaurant-grid">
         <div class="restaurant-card">
-            <h4>&#x1F95F; 망원동 즉석우동</h4>
-            <p>따뜻한 국물 우동을 맛볼 수 있는 현지 맛집</p>
+            <h4 data-i18n="food1_t">&#x1F95F; 망원동 즉석우동</h4>
+            <p data-i18n="food1_d">따뜻한 국물 우동을 맛볼 수 있는 현지 맛집</p>
         </div>
         <div class="restaurant-card">
-            <h4>&#x1F357; 교동닭강정</h4>
-            <p>바삭한 강정과 다양한 맛을 제공하는 곳</p>
+            <h4 data-i18n="food2_t">&#x1F357; 교동닭강정</h4>
+            <p data-i18n="food2_d">바삭한 강정과 다양한 맛을 제공하는 곳</p>
         </div>
         <div class="restaurant-card">
-            <h4>&#x2615; 어글리베이커리</h4>
-            <p>커피와 다양한 빵을 즐길 수 있는 베이커리 카페</p>
+            <h4 data-i18n="food3_t">&#x2615; 어글리베이커리</h4>
+            <p data-i18n="food3_d">커피와 다양한 빵을 즐길 수 있는 베이커리 카페</p>
         </div>
         <div class="restaurant-card">
-            <h4>&#x1F354; 브루클린 더버거조인트</h4>
-            <p>수제버거의 매력에 빠질 수밖에 없는 곳</p>
+            <h4 data-i18n="food4_t">&#x1F354; 브루클린 더버거조인트</h4>
+            <p data-i18n="food4_d">수제버거의 매력에 빠질 수밖에 없는 곳</p>
         </div>
         <div class="restaurant-card">
-            <h4>&#x1F37A; 크래프트 한스</h4>
-            <p>크래프트 맥주를 즐기기 좋은 분위기</p>
+            <h4 data-i18n="food5_t">&#x1F37A; 크래프트 한스</h4>
+            <p data-i18n="food5_d">크래프트 맥주를 즐기기 좋은 분위기</p>
         </div>
         <div class="restaurant-card">
-            <h4>&#x1F3DE; 망원한강공원</h4>
-            <p>도보 약 10분, 피크닉매트 이용 가능!</p>
+            <h4 data-i18n="food6_t">&#x1F3DE; 망원한강공원</h4>
+            <p data-i18n="food6_d">도보 약 10분, 피크닉매트 이용 가능!</p>
         </div>
     </div>
 </section>
 
 <!-- 위치 & 교통편 -->
 <section id="location">
-    <h2>위치 및 교통편</h2>
+    <h2 data-i18n="loc_title">위치 및 교통편</h2>
     <p class="section-desc">서울 마포구 희우정로16길 16</p>
     <div class="location-content">
         <div class="map-container">
@@ -823,94 +850,95 @@
             </iframe>
         </div>
         <div class="location-details">
-            <h3>오시는 길</h3>
-            <p><strong>주소:</strong> 서울특별시 마포구 희우정로16길 16</p>
+            <h3 data-i18n="loc_how">오시는 길</h3>
+            <p><span data-i18n="loc_addr_label">주소:</span> 서울특별시 마포구 희우정로16길 16</p>
 
             <div class="transit-list" style="margin-top:20px;">
-                <h3>주요 거리</h3>
+                <h3 data-i18n="loc_distances">주요 거리</h3>
                 <div class="transit-item">
-                    <span class="transit-dest">홍대입구역</span>
-                    <span class="transit-time">도보 15분 / 지하철 6분</span>
+                    <span class="transit-dest" data-i18n="loc_hongdae">홍대입구역</span>
+                    <span class="transit-time" data-i18n="loc_hongdae_t">도보 15분 / 지하철 6분</span>
                 </div>
                 <div class="transit-item">
-                    <span class="transit-dest">망원역 (6호선)</span>
-                    <span class="transit-time">도보 약 10분</span>
+                    <span class="transit-dest" data-i18n="loc_mangwon">망원역 (6호선)</span>
+                    <span class="transit-time" data-i18n="loc_mangwon_t">도보 약 10분</span>
                 </div>
                 <div class="transit-item">
-                    <span class="transit-dest">망원한강공원</span>
-                    <span class="transit-time">도보 약 10분</span>
+                    <span class="transit-dest" data-i18n="loc_hangang">망원한강공원</span>
+                    <span class="transit-time" data-i18n="loc_hangang_t">도보 약 10분</span>
                 </div>
                 <div class="transit-item">
-                    <span class="transit-dest">이태원역</span>
-                    <span class="transit-time">지하철 약 22분 (6호선 직행)</span>
+                    <span class="transit-dest" data-i18n="loc_itaewon">이태원역</span>
+                    <span class="transit-time" data-i18n="loc_itaewon_t">지하철 약 22분 (6호선 직행)</span>
                 </div>
                 <div class="transit-item">
-                    <span class="transit-dest">명동역</span>
-                    <span class="transit-time">지하철 약 25~30분</span>
+                    <span class="transit-dest" data-i18n="loc_myeongdong">명동역</span>
+                    <span class="transit-time" data-i18n="loc_myeongdong_t">지하철 약 25~30분</span>
                 </div>
                 <div class="transit-item">
-                    <span class="transit-dest">신촌 세브란스병원</span>
-                    <span class="transit-time">차량 약 10분</span>
+                    <span class="transit-dest" data-i18n="loc_severance">신촌 세브란스병원</span>
+                    <span class="transit-time" data-i18n="loc_severance_t">차량 약 10분</span>
                 </div>
             </div>
-            <p style="margin-top:16px; color:#4ca1af; font-weight:600;">공항 리무진 / 지하철 / 택시 / 전용 픽업 이용 가능</p>
+            <p style="margin-top:16px; color:#4ca1af; font-weight:600;" data-i18n="loc_transport">공항 리무진 / 지하철 / 택시 / 전용 픽업 이용 가능</p>
         </div>
     </div>
 </section>
 
 <!-- 비상 연락처 -->
 <section id="emergency">
-    <h2>비상 연락처</h2>
-    <p class="section-desc">긴급 상황 시 아래 번호로 연락하세요</p>
+    <h2 data-i18n="emer_title">비상 연락처</h2>
+    <p class="section-desc" data-i18n="emer_desc">긴급 상황 시 아래 번호로 연락하세요</p>
     <div class="emergency-grid">
         <div class="emergency-card">
             <div class="num">112</div>
-            <p>경찰 (Police)</p>
+            <p data-i18n="emer_police">경찰 (Police)</p>
         </div>
         <div class="emergency-card">
             <div class="num">119</div>
-            <p>응급/소방 (Emergency)</p>
+            <p data-i18n="emer_fire">응급/소방 (Emergency)</p>
         </div>
         <div class="emergency-card">
             <div class="num">&#x1F4F1;</div>
-            <p>호스트 연락처<br>(예약 확정 후 안내)</p>
+            <p data-i18n="emer_host">호스트 연락처<br>(예약 확정 후 안내)</p>
         </div>
     </div>
 </section>
 
 <!-- 예약 / 연락처 -->
 <section id="contact">
-    <h2>예약 및 연락처</h2>
-    <p class="section-desc">문의 및 예약은 아래 채널을 이용해주세요</p>
+    <h2 data-i18n="contact_title">예약 및 연락처</h2>
+    <p class="section-desc" data-i18n="contact_desc">문의 및 예약은 아래 채널을 이용해주세요</p>
     <div class="contact-grid">
         <div class="contact-card">
             <div class="icon">&#x1F4DE;</div>
-            <h4>전화 문의</h4>
+            <h4 data-i18n="contact_phone">전화 문의</h4>
             <a href="tel:010-0000-0000">010-0000-0000</a>
-            <p style="margin-top:8px; color:#888; font-size:0.9rem;">운영시간: 09:00 ~ 21:00</p>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;" data-i18n="contact_hours">운영시간: 09:00 ~ 21:00</p>
         </div>
         <div class="contact-card">
             <div class="icon">&#x1F4AC;</div>
-            <h4>카카오톡</h4>
-            <a href="#">카카오톡 채널 바로가기</a>
-            <p style="margin-top:8px; color:#888; font-size:0.9rem;">실시간 상담 가능</p>
+            <h4 data-i18n="contact_kakao">카카오톡</h4>
+            <a href="#" data-i18n="contact_kakao_link">카카오톡 채널 바로가기</a>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;" data-i18n="contact_kakao_d">실시간 상담 가능</p>
         </div>
         <div class="contact-card">
             <div class="icon">&#x1F3E0;</div>
-            <h4>에어비앤비 예약</h4>
-            <a href="https://www.airbnb.co.kr/rooms/1543104413943284706" target="_blank">에어비앤비 바로가기</a>
-            <p style="margin-top:8px; color:#888; font-size:0.9rem;">간편 온라인 예약</p>
+            <h4 data-i18n="contact_airbnb">에어비앤비 예약</h4>
+            <a href="https://www.airbnb.co.kr/rooms/1543104413943284706" target="_blank" data-i18n="contact_airbnb_link">에어비앤비 바로가기</a>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;" data-i18n="contact_airbnb_d">간편 온라인 예약</p>
         </div>
     </div>
 </section>
 
 <!-- 푸터 -->
 <footer>
-    <p>이 공간이 여러분의 서울 여행을 더 특별하게 만들어주길 바랍니다.</p>
-    <p style="margin-top:8px;">Enjoy your stay at Oz House!</p>
+    <p data-i18n="footer1">이 공간이 여러분의 서울 여행을 더 특별하게 만들어주길 바랍니다.</p>
+    <p style="margin-top:8px;" data-i18n="footer2">Enjoy your stay at Oz House!</p>
     <p style="margin-top:16px; opacity:0.6;">&copy; 2026 오즈 하우스. All rights reserved.</p>
 </footer>
 
+<script src="i18n.js"></script>
 <script>
     // 라이트박스
     const images = [
