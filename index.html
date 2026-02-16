@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오즈 하우스 - 서울 마포 공유숙박</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 히어로 */
+        .hero {
+            position: relative;
+            height: 80vh;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('KakaoTalk_20260216_191144787_06.jpg') center/cover no-repeat;
+            filter: brightness(0.55);
+            z-index: -1;
+        }
+        .hero h1 { font-size: 3.5rem; letter-spacing: 4px; margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+        .hero p { font-size: 1.2rem; opacity: 0.95; max-width: 650px; text-shadow: 0 1px 6px rgba(0,0,0,0.3); }
+        .hero .badge { margin-top: 20px; display: inline-block; background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 24px; font-size: 0.95rem; }
+
+        /* 네비게이션 */
+        nav {
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        nav ul { display: flex; justify-content: center; list-style: none; flex-wrap: wrap; }
+        nav a {
+            display: block;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: color 0.2s, background 0.2s;
+        }
+        nav a:hover { color: #4ca1af; background: #f0f8fa; }
+
+        /* 섹션 공통 */
+        section { padding: 64px 20px; max-width: 1000px; margin: 0 auto; }
+        .section-wide { max-width: 1200px; }
+        section h2 { font-size: 2rem; color: #2c3e50; margin-bottom: 12px; text-align: center; }
+        section h2::after { content: ''; display: block; width: 60px; height: 3px; background: #4ca1af; margin: 12px auto 0; }
+        .section-desc { text-align: center; color: #777; margin-bottom: 36px; }
+        section h3 { color: #2c3e50; margin-bottom: 12px; font-size: 1.2rem; }
+
+        /* 소개 */
+        .about-text { text-align: center; font-size: 1.1rem; color: #555; max-width: 700px; margin: 24px auto 0; line-height: 1.9; }
+        .highlights { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-top: 40px; }
+        .highlight-item { text-align: center; padding: 20px 12px; background: #f7fafb; border-radius: 12px; }
+        .highlight-item .num { font-size: 1.8rem; font-weight: 700; color: #4ca1af; }
+        .highlight-item .label { color: #666; font-size: 0.9rem; margin-top: 4px; }
+
+        /* 갤러리 */
+        .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .gallery-item { aspect-ratio: 4/3; overflow: hidden; border-radius: 8px; cursor: pointer; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-item .caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.6)); color: white; padding: 20px 12px 10px; font-size: 0.85rem; font-weight: 600; }
+        .gallery-item.large { grid-column: span 2; grid-row: span 2; }
+
+        /* 라이트박스 */
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 200; justify-content: center; align-items: center; cursor: pointer; }
+        .lightbox.active { display: flex; }
+        .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 8px; }
+        .lightbox-close { position: absolute; top: 20px; right: 24px; color: white; font-size: 2rem; cursor: pointer; background: none; border: none; }
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); color: white; font-size: 2.5rem; cursor: pointer; background: rgba(255,255,255,0.15); border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .lightbox-prev { left: 16px; }
+        .lightbox-next { right: 16px; }
+
+        /* 공간 안내 */
+        .space-info { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 8px; }
+        .floor-plan { background: #f7fafb; border-radius: 16px; overflow: hidden; }
+        .floor-plan img { width: 100%; display: block; }
+        .floor-plan h3 { padding: 16px 20px 4px; }
+        .floor-plan p { padding: 0 20px 16px; color: #777; font-size: 0.9rem; }
+        .space-details { display: flex; flex-direction: column; gap: 16px; }
+        .space-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 20px; }
+        .space-card h4 { color: #2c3e50; margin-bottom: 6px; }
+        .space-card p { color: #666; font-size: 0.95rem; }
+
+        /* 인원별 안내 */
+        .capacity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+        .capacity-card { border: 2px solid #e0e8eb; border-radius: 16px; padding: 28px; }
+        .capacity-card.highlight { border-color: #4ca1af; background: #f0f8fa; }
+        .capacity-card h4 { color: #4ca1af; font-size: 1.2rem; margin-bottom: 12px; }
+        .capacity-card ul { list-style: none; padding: 0; }
+        .capacity-card li { padding: 4px 0; color: #555; padding-left: 20px; position: relative; }
+        .capacity-card li::before { content: ''; position: absolute; left: 0; top: 12px; width: 8px; height: 8px; background: #4ca1af; border-radius: 50%; }
+        .capacity-note { margin-top: 24px; padding: 20px; background: #fff8e7; border-radius: 12px; border-left: 4px solid #f0c040; }
+        .capacity-note p { color: #666; font-size: 0.9rem; margin-bottom: 4px; }
+
+        /* 편의시설 */
+        .facilities { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .facility { text-align: center; padding: 24px 12px; background: #f7fafb; border-radius: 12px; }
+        .facility .icon { font-size: 2rem; margin-bottom: 6px; }
+        .facility h4 { color: #2c3e50; margin-bottom: 2px; font-size: 0.95rem; }
+        .facility p { font-size: 0.8rem; color: #888; }
+
+        /* 어메니티 */
+        .amenity-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 16px; }
+        .amenity-tag { background: #f0f8fa; color: #2c3e50; padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; }
+
+        /* 체크인/규칙/가이드 공통 카드 */
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .info-card { background: #f7fafb; border-radius: 16px; padding: 28px; }
+        .info-card h4 { color: #2c3e50; margin-bottom: 12px; font-size: 1.1rem; }
+        .info-card p, .info-card li { color: #555; font-size: 0.95rem; }
+        .info-card ul { padding-left: 20px; }
+        .info-card li { margin-bottom: 6px; }
+        .info-card .time { font-size: 1.8rem; font-weight: 700; color: #4ca1af; }
+
+        /* 규칙 리스트 */
+        .rules-list { max-width: 700px; margin: 0 auto; }
+        .rule-item { display: flex; align-items: flex-start; gap: 16px; padding: 16px 0; border-bottom: 1px solid #eee; }
+        .rule-item:last-child { border-bottom: none; }
+        .rule-icon { font-size: 1.5rem; flex-shrink: 0; width: 40px; text-align: center; }
+        .rule-text { color: #555; font-size: 0.95rem; }
+        .rule-text strong { color: #e74c3c; }
+
+        /* 가이드 섹션 */
+        .guide-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .guide-card { background: #f7fafb; border-radius: 16px; padding: 28px; }
+        .guide-card h4 { color: #2c3e50; margin-bottom: 12px; font-size: 1.1rem; }
+        .guide-card ol { padding-left: 20px; color: #555; }
+        .guide-card li { margin-bottom: 8px; font-size: 0.95rem; }
+        .guide-card .tip { margin-top: 12px; padding: 12px; background: #e8f4f8; border-radius: 8px; font-size: 0.85rem; color: #3a7a8a; }
+
+        /* 배달 가이드 */
+        .delivery-lang-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+        .lang-tab { padding: 10px 20px; border: 2px solid #ddd; border-radius: 24px; background: #fff; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: #666; transition: all 0.2s; }
+        .lang-tab:hover { border-color: #4ca1af; color: #4ca1af; }
+        .lang-tab.active { background: #4ca1af; color: #fff; border-color: #4ca1af; }
+        .delivery-content { display: none; }
+        .delivery-content.active { display: block; }
+        .delivery-steps { display: flex; flex-direction: column; gap: 20px; max-width: 700px; margin: 0 auto; }
+        .delivery-step { display: flex; gap: 20px; align-items: flex-start; background: #f7fafb; border-radius: 16px; padding: 24px; }
+        .step-num { flex-shrink: 0; width: 40px; height: 40px; background: #4ca1af; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; }
+        .step-text h4 { color: #2c3e50; margin-bottom: 4px; }
+        .step-text p { color: #666; font-size: 0.95rem; }
+        .step-text .note { margin-top: 6px; color: #e74c3c; font-size: 0.85rem; font-weight: 600; }
+
+        /* 맛집 추천 */
+        .restaurant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .restaurant-card { background: #f7fafb; border-radius: 16px; padding: 24px; }
+        .restaurant-card h4 { color: #2c3e50; margin-bottom: 6px; }
+        .restaurant-card p { color: #666; font-size: 0.9rem; }
+
+        /* 위치/교통 */
+        .location-content { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+        .map-container { width: 100%; border-radius: 12px; overflow: hidden; }
+        .map-container iframe { width: 100%; height: 350px; border: 0; }
+        .location-details h3 { color: #2c3e50; margin-bottom: 12px; }
+        .location-details p { margin-bottom: 8px; color: #555; }
+        .transit-list { margin-top: 16px; }
+        .transit-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .transit-item:last-child { border-bottom: none; }
+        .transit-dest { font-weight: 600; color: #2c3e50; }
+        .transit-time { color: #4ca1af; font-weight: 600; }
+
+        /* 비상연락처 */
+        .emergency-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .emergency-card { text-align: center; padding: 24px; background: #fff5f5; border-radius: 12px; }
+        .emergency-card .num { font-size: 2rem; font-weight: 700; color: #e74c3c; }
+        .emergency-card p { color: #666; font-size: 0.9rem; }
+
+        /* 연락처 */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; text-align: center; }
+        .contact-card { padding: 32px 20px; background: #f7fafb; border-radius: 16px; }
+        .contact-card .icon { font-size: 2rem; margin-bottom: 12px; }
+        .contact-card h4 { color: #2c3e50; margin-bottom: 8px; }
+        .contact-card a { color: #4ca1af; text-decoration: none; font-weight: 600; font-size: 1.1rem; }
+        .contact-card a:hover { text-decoration: underline; }
+
+        /* 푸터 */
+        footer { background: #2c3e50; color: rgba(255,255,255,0.7); text-align: center; padding: 32px 20px; font-size: 0.9rem; }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .hero { height: 60vh; min-height: 350px; }
+            .hero h1 { font-size: 2.2rem; }
+            .hero p { font-size: 0.95rem; }
+            nav a { padding: 10px 12px; font-size: 0.8rem; }
+            section { padding: 48px 16px; }
+            .gallery { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item.large { grid-column: span 2; grid-row: span 1; }
+            .space-info, .info-grid, .capacity-grid, .location-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 히어로 -->
+<header class="hero">
+    <div class="hero-bg"></div>
+    <h1>오즈 하우스</h1>
+    <p>서울 마포 망원 | 독채 전체 | 최대 15인 | 방 4 · 욕실 2.5 · 거실 2</p>
+    <div class="badge">Airbnb 5.0 / 홍대 6분 / 망리단길 / 망원한강공원</div>
+</header>
+
+<!-- 네비게이션 -->
+<nav>
+    <ul>
+        <li><a href="#about">소개</a></li>
+        <li><a href="#gallery">사진</a></li>
+        <li><a href="#space">공간</a></li>
+        <li><a href="#checkin">체크인</a></li>
+        <li><a href="#rules">이용규칙</a></li>
+        <li><a href="#facilities">시설</a></li>
+        <li><a href="#guide">이용가이드</a></li>
+        <li><a href="#delivery">배달</a></li>
+        <li><a href="#food">맛집</a></li>
+        <li><a href="#location">위치</a></li>
+        <li><a href="#contact">예약</a></li>
+    </ul>
+</nav>
+
+<!-- 소개 -->
+<section id="about">
+    <h2>Welcome to Oz House</h2>
+    <p class="about-text">
+        망원 한강과 홍대의 감성을 모두 즐길 수 있는 이 공간에 오신 것을 환영합니다.<br>
+        새로 리모델링한 편안하고 아늑한 공간에서<br>
+        가족, 친구와 함께 특별한 시간을 보내세요.
+    </p>
+    <div class="highlights">
+        <div class="highlight-item">
+            <div class="num">15인</div>
+            <div class="label">최대 수용</div>
+        </div>
+        <div class="highlight-item">
+            <div class="num">4개</div>
+            <div class="label">침실</div>
+        </div>
+        <div class="highlight-item">
+            <div class="num">2.5개</div>
+            <div class="label">욕실</div>
+        </div>
+        <div class="highlight-item">
+            <div class="num">2개</div>
+            <div class="label">거실</div>
+        </div>
+        <div class="highlight-item">
+            <div class="num">옥상</div>
+            <div class="label">테라스</div>
+        </div>
+        <div class="highlight-item">
+            <div class="num">5.0</div>
+            <div class="label">Airbnb 평점</div>
+        </div>
+    </div>
+</section>
+
+<!-- 사진 갤러리 -->
+<section id="gallery" class="section-wide">
+    <h2>공간 둘러보기</h2>
+    <p class="section-desc">사진을 클릭하면 크게 볼 수 있습니다</p>
+    <div class="gallery">
+        <div class="gallery-item large" onclick="openLightbox(0)">
+            <img src="KakaoTalk_20260216_191144787_06.jpg" alt="거실" loading="lazy">
+            <div class="caption">4층 거실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(1)">
+            <img src="KakaoTalk_20260216_191144787_09.jpg" alt="라운지" loading="lazy">
+            <div class="caption">라운지</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(2)">
+            <img src="KakaoTalk_20260216_191144787_10.jpg" alt="창가 풍경" loading="lazy">
+            <div class="caption">창가 풍경</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(3)">
+            <img src="KakaoTalk_20260216_191144787_13.jpg" alt="계단 & 홀" loading="lazy">
+            <div class="caption">계단 & 홀</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(4)">
+            <img src="KakaoTalk_20260216_191144787_12.jpg" alt="5층 거실" loading="lazy">
+            <div class="caption">5층 거실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(5)">
+            <img src="KakaoTalk_20260216_191144787_08.jpg" alt="침실" loading="lazy">
+            <div class="caption">침실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(6)">
+            <img src="KakaoTalk_20260216_191144787_11.jpg" alt="침실" loading="lazy">
+            <div class="caption">침실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(7)">
+            <img src="KakaoTalk_20260216_191144787_07.jpg" alt="주방 & 다이닝" loading="lazy">
+            <div class="caption">주방 & 다이닝</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(8)">
+            <img src="KakaoTalk_20260216_191144787_14.jpg" alt="주방" loading="lazy">
+            <div class="caption">주방</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(9)">
+            <img src="KakaoTalk_20260216_191144787_01.jpg" alt="욕실" loading="lazy">
+            <div class="caption">욕실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(10)">
+            <img src="KakaoTalk_20260216_191144787_02.jpg" alt="욕실" loading="lazy">
+            <div class="caption">욕실</div>
+        </div>
+        <div class="gallery-item" onclick="openLightbox(11)">
+            <img src="KakaoTalk_20260216_191144787.jpg" alt="옥상 테라스" loading="lazy">
+            <div class="caption">옥상 테라스</div>
+        </div>
+    </div>
+</section>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); navLightbox(-1)">&#8249;</button>
+    <img id="lightbox-img" src="" alt="">
+    <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); navLightbox(1)">&#8250;</button>
+</div>
+
+<!-- 공간 안내 -->
+<section id="space">
+    <h2>공간 안내</h2>
+    <p class="section-desc">예약 인원에 따라 이용 가능한 공간이 달라집니다</p>
+
+    <!-- 인원별 안내 -->
+    <div class="capacity-grid">
+        <div class="capacity-card">
+            <h4>7인 이하</h4>
+            <ul>
+                <li>4층만 오픈</li>
+                <li>방 2개 (각 방 퀸침대 2개씩, 총 4개)</li>
+                <li>넓은 거실</li>
+                <li>넓은 주방</li>
+                <li>욕실 2개</li>
+            </ul>
+        </div>
+        <div class="capacity-card highlight">
+            <h4>8인 이상</h4>
+            <ul>
+                <li>4층 + 5층 전체 오픈</li>
+                <li>방 4개 (퀸침대 7개 + 소파베드 1개)</li>
+                <li>욕실 2.5개</li>
+                <li>5층 욕실은 세면대·변기만 이용 가능 (샤워 불가)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="capacity-note">
+        <p>예약 인원에 따라 공간이 자동으로 조정됩니다.</p>
+        <p>예약 인원보다 많은 공간 사용 시 <strong>추가 요금</strong>이 발생할 수 있습니다.</p>
+        <p>인원 변경 시 미리 알려주시면 그에 맞춰 공간을 준비해드립니다.</p>
+        <p><strong style="color:#e74c3c;">가구 이동 절대 금지</strong> 부탁드립니다.</p>
+    </div>
+
+    <!-- 평면도 -->
+    <div class="space-info" style="margin-top:32px;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+            <div class="floor-plan">
+                <h3>4층</h3>
+                <p>침실 2 + 거실 + 주방 + 다이닝룸 + 욕실</p>
+                <img src="KakaoTalk_20260216_191144787_04.jpg" alt="4층 평면도">
+            </div>
+            <div class="floor-plan">
+                <h3>5층</h3>
+                <p>침실 2 + 거실 + 샤워실 + 옥상 테라스</p>
+                <img src="KakaoTalk_20260216_191144787_05.jpg" alt="5층 평면도">
+            </div>
+        </div>
+        <div class="space-details">
+            <div class="space-card">
+                <h4>4층 - 침실 (방 2개)</h4>
+                <p>각 방에 퀸 베드 2개씩 배치</p>
+            </div>
+            <div class="space-card">
+                <h4>4층 - 거실 & 주방 & 다이닝</h4>
+                <p>넓은 소파, TV, 6인용 식탁<br>냉장고, 전자레인지, 세탁기/건조기 완비</p>
+            </div>
+            <div class="space-card">
+                <h4>5층 - 침실 (방 2개) & 거실</h4>
+                <p>퀸침대 3개 + 소파베드 1개<br>넓은 거실 공간</p>
+            </div>
+            <div class="space-card">
+                <h4>욕실 2.5개</h4>
+                <p>4층 욕실 2개 (샤워 가능)<br>5층 반욕실 1개 (세면대+변기, 샤워 불가)</p>
+            </div>
+            <div class="space-card">
+                <h4>옥상 테라스</h4>
+                <p>테이블과 의자가 갖춰진 넓은 야외 공간 (약 62m²)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 체크인/아웃 -->
+<section id="checkin">
+    <h2>체크인 & 체크아웃</h2>
+    <p class="section-desc">셀프 체크인으로 편리하게 입실하세요</p>
+    <div class="info-grid">
+        <div class="info-card" style="text-align:center;">
+            <h4>체크인</h4>
+            <div class="time">PM 4:00</div>
+            <p>오후 4시부터 입실 가능</p>
+        </div>
+        <div class="info-card" style="text-align:center;">
+            <h4>체크아웃</h4>
+            <div class="time">AM 11:00</div>
+            <p>오전 11시까지 퇴실</p>
+        </div>
+    </div>
+    <div class="capacity-note" style="margin-top:24px;">
+        <p>체크아웃 전 <strong>간단한 정리</strong> 부탁드립니다.</p>
+        <p>예약 인원보다 많은 인원/공간 사용 시 추가 요금이 발생할 수 있습니다.</p>
+    </div>
+</section>
+
+<!-- 이용 규칙 -->
+<section id="rules">
+    <h2>숙소 이용 규칙</h2>
+    <p class="section-desc">쾌적한 숙박을 위해 아래 규칙을 지켜주세요</p>
+    <div class="rules-list">
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F6AD;</div>
+            <div class="rule-text"><strong>완전 금연</strong> — 실내/옥상 모두 금연입니다. 위반 시 벌금 100만원이 부과됩니다.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F9F3;</div>
+            <div class="rule-text"><strong>캐리어 바퀴 커버 착용</strong> — 숙소 도착하자마자 캐리어 바퀴 커버를 착용해주세요.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F45F;</div>
+            <div class="rule-text"><strong>실내 신발 금지</strong> — 입구에서 신발을 벗어주세요.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F389;</div>
+            <div class="rule-text"><strong>파티 금지</strong> — 파티 및 과도한 소음은 금지입니다.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F372;</div>
+            <div class="rule-text"><strong>강한 냄새 조리 금지</strong> — 고기·생선류 등 강한 냄새가 나는 조리는 삼가주세요.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F30C;</div>
+            <div class="rule-text"><strong>밤 10시 이후 소음 자제</strong> — 이웃을 위해 조용히 해주세요.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F377;</div>
+            <div class="rule-text"><strong>옥상 음주 금지</strong> — 옥상 테라스에서의 음주는 금지됩니다.</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F4F9;</div>
+            <div class="rule-text"><strong>외부 CCTV</strong> — 외부 출입구에 CCTV가 설치되어 있습니다 (실내 미설치).</div>
+        </div>
+        <div class="rule-item">
+            <div class="rule-icon">&#x1F465;</div>
+            <div class="rule-text"><strong>방문객 사전 고지</strong> — 예약 인원 외 출입은 반드시 사전에 알려주세요.</div>
+        </div>
+    </div>
+</section>
+
+<!-- 편의시설 & 어메니티 -->
+<section id="facilities">
+    <h2>편의시설 & 어메니티</h2>
+    <p class="section-desc">편안한 숙박을 위한 시설을 갖추고 있습니다</p>
+    <div class="facilities">
+        <div class="facility">
+            <div class="icon">&#x1F4F6;</div>
+            <h4>무료 Wi-Fi</h4>
+            <p>전 공간 고속 인터넷</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F4FA;</div>
+            <h4>TV & 빔프로젝터</h4>
+            <p>넷플릭스, 유튜브</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F373;</div>
+            <h4>주방</h4>
+            <p>냉장고, 전자레인지, 식기류</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F455;</div>
+            <h4>세탁기 / 건조기</h4>
+            <p>드럼 세탁기 & 건조기</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F6BF;</div>
+            <h4>욕실 2.5개</h4>
+            <p>샤워 시설 및 어메니티</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x2600;</div>
+            <h4>옥상 테라스</h4>
+            <p>테이블, 의자, 차양막</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x2744;</div>
+            <h4>냉난방</h4>
+            <p>에어컨 / 히터 완비</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F6AA;</div>
+            <h4>셀프 체크인</h4>
+            <p>비대면 입실</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x2708;</div>
+            <h4>공항 픽업</h4>
+            <p>요청 시 가능</p>
+        </div>
+        <div class="facility">
+            <div class="icon">&#x1F9FA;</div>
+            <h4>피크닉 매트</h4>
+            <p>한강공원 나들이용</p>
+        </div>
+    </div>
+
+    <h3 style="text-align:center; margin-top:36px;">제공 어메니티</h3>
+    <div class="amenity-list">
+        <span class="amenity-tag">샴푸</span>
+        <span class="amenity-tag">트리트먼트</span>
+        <span class="amenity-tag">바디워시</span>
+        <span class="amenity-tag">일회용 칫솔</span>
+        <span class="amenity-tag">치약</span>
+        <span class="amenity-tag">일회용 샤워타월</span>
+        <span class="amenity-tag">클렌징 워터</span>
+        <span class="amenity-tag">화장 솜</span>
+        <span class="amenity-tag">면봉</span>
+        <span class="amenity-tag">수건</span>
+        <span class="amenity-tag">드라이기</span>
+    </div>
+    <p style="text-align:center; color:#888; font-size:0.85rem; margin-top:12px;">수건은 고온 단독 세탁하여 준비하니 안심하고 사용하세요.</p>
+</section>
+
+<!-- 이용 가이드 -->
+<section id="guide">
+    <h2>이용 가이드</h2>
+    <p class="section-desc">빔프로젝터, 피크닉매트, 택시 이용법</p>
+    <div class="guide-cards">
+        <div class="guide-card">
+            <h4>&#x1F3AC; 빔프로젝터 사용법</h4>
+            <ol>
+                <li>전원 버튼 ON</li>
+                <li>HDMI 케이블 연결</li>
+                <li>리모컨으로 HDMI 입력 소스 선택</li>
+                <li>넷플릭스/유튜브는 개인 계정 로그인</li>
+            </ol>
+            <div class="tip">
+                사용 후 반드시 전원 OFF 해주세요.<br>
+                렌즈를 직접 손으로 만지지 마세요.<br>
+                연결이 안 될 경우 리모컨으로 입력 소스를 확인 후 다시 시도해주세요.
+            </div>
+        </div>
+        <div class="guide-card">
+            <h4>&#x1F9FA; 피크닉 매트 이용</h4>
+            <ol>
+                <li>한강공원 이용 시 자유롭게 사용 가능</li>
+                <li>사용 후 모래/먼지 제거 후 접어서 보관</li>
+                <li>젖었을 경우 완전히 말린 후 실내 보관</li>
+            </ol>
+            <div class="tip">
+                한강공원에서 피크닉을 즐기실 때, 근처에 음료/간식 판매점도 있으니 참고하세요.
+            </div>
+        </div>
+        <div class="guide-card">
+            <h4>&#x1F695; 택시 부르는 방법</h4>
+            <ol>
+                <li>카카오T 앱 다운로드</li>
+                <li>출발지 자동 설정 확인</li>
+                <li>목적지 입력</li>
+                <li>카드 등록 후 호출</li>
+            </ol>
+            <div class="tip">
+                기사님과 통화가 어려울 경우:<br>
+                "Please come to the front of the building." 라고 보여주세요.
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 배달 주문 가이드 -->
+<section id="delivery">
+    <h2>배달 주문 방법</h2>
+    <p class="section-desc">
+        태블릿 PC의 배달의민족 앱으로 간편하게 주문하세요<br>
+        <strong>배달 주소: 서울 마포구 희우정로16길 16 / 건물 1층 앞에서 수령</strong>
+    </p>
+
+    <div class="delivery-lang-tabs">
+        <button class="lang-tab active" onclick="switchLang('ko')">한국어</button>
+        <button class="lang-tab" onclick="switchLang('en')">English</button>
+        <button class="lang-tab" onclick="switchLang('zh')">中文</button>
+        <button class="lang-tab" onclick="switchLang('ja')">日本語</button>
+    </div>
+
+    <!-- 한국어 -->
+    <div class="delivery-content active" id="lang-ko">
+        <div class="delivery-steps">
+            <div class="delivery-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>배달의민족 앱 선택</h4>
+                    <p>태블릿 PC에서 배달의민족 어플을 선택하세요.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>메뉴 선택</h4>
+                    <p>원하시는 카테고리에서 메뉴를 선택합니다.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>장바구니에 담기</h4>
+                    <p>원하시는 메뉴를 담으시고 표시된 곳을 클릭하세요.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>배달 방식 선택</h4>
+                    <p>배달 방식 중 <strong>가게배달</strong>(표시된 곳)을 클릭하세요.</p>
+                    <p class="note">* 해당 선택란이 없으면 배달이 불가능합니다.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">5</div>
+                <div class="step-text">
+                    <h4>현금 결제 선택</h4>
+                    <p>결제 방식 중 <strong>만나서 현금결제</strong>(표시된 곳)를 클릭하세요.<br>배달이 도착하면 기사님께 현금으로 결제하시면 됩니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- English -->
+    <div class="delivery-content" id="lang-en">
+        <div class="delivery-steps">
+            <div class="delivery-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>Select the Baedal Minjok App</h4>
+                    <p>Please select the Baedal Minjok app on the tablet PC.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>Select a Menu</h4>
+                    <p>Select a menu from your desired category.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>Add to Cart</h4>
+                    <p>Add the items you want to your cart and click the highlighted area.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>Select Delivery Method</h4>
+                    <p>Please select <strong>"Store Delivery"</strong> (the highlighted option) under the delivery method.</p>
+                    <p class="note">* If this option is not available, delivery is not possible.</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">5</div>
+                <div class="step-text">
+                    <h4>Pay in Cash</h4>
+                    <p>Under the payment method, please select <strong>"Pay in Cash upon Delivery"</strong>.<br>When the delivery arrives, please pay the driver in cash.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 中文 -->
+    <div class="delivery-content" id="lang-zh">
+        <div class="delivery-steps">
+            <div class="delivery-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>选择外卖民族应用</h4>
+                    <p>请在平板电脑上选择"外卖民族"应用。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>选择菜单</h4>
+                    <p>在您想要的分类中选择菜单。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>加入购物车</h4>
+                    <p>将您想要的菜单加入购物车，然后点击标示的区域。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>选择配送方式</h4>
+                    <p>在配送方式中请选择<strong>"商家配送"</strong>（标示的位置）。</p>
+                    <p class="note">* 如果没有该选项，则无法配送。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">5</div>
+                <div class="step-text">
+                    <h4>现金支付</h4>
+                    <p>在支付方式中请选择<strong>"当面现金支付"</strong>（标示的位置）。<br>外卖送达后，请直接以现金支付给配送员。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日本語 -->
+    <div class="delivery-content" id="lang-ja">
+        <div class="delivery-steps">
+            <div class="delivery-step">
+                <div class="step-num">1</div>
+                <div class="step-text">
+                    <h4>ペダルミンジョクアプリを選択</h4>
+                    <p>タブレットPCで「ペダルミンジョク」アプリを選択してください。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">2</div>
+                <div class="step-text">
+                    <h4>メニューを選択</h4>
+                    <p>ご希望のカテゴリーからメニューを選択してください。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">3</div>
+                <div class="step-text">
+                    <h4>カートに入れる</h4>
+                    <p>ご希望のメニューをカートに入れ、表示されている箇所をクリックしてください。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">4</div>
+                <div class="step-text">
+                    <h4>配送方法を選択</h4>
+                    <p>配送方法の中から<strong>「店舗配達」</strong>（表示されている箇所）を選択してください。</p>
+                    <p class="note">* この選択肢がない場合、配達はできません。</p>
+                </div>
+            </div>
+            <div class="delivery-step">
+                <div class="step-num">5</div>
+                <div class="step-text">
+                    <h4>現金払い</h4>
+                    <p>お支払い方法の中から<strong>「配達時に現金払い」</strong>を選択してください。<br>配達到着後、配達員に現金でお支払いください。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 주변 맛집 & 명소 -->
+<section id="food">
+    <h2>주변 맛집 & 명소 추천</h2>
+    <p class="section-desc">도보 또는 대중교통 10~20분 거리</p>
+    <div class="restaurant-grid">
+        <div class="restaurant-card">
+            <h4>&#x1F95F; 망원동 즉석우동</h4>
+            <p>따뜻한 국물 우동을 맛볼 수 있는 현지 맛집</p>
+        </div>
+        <div class="restaurant-card">
+            <h4>&#x1F357; 교동닭강정</h4>
+            <p>바삭한 강정과 다양한 맛을 제공하는 곳</p>
+        </div>
+        <div class="restaurant-card">
+            <h4>&#x2615; 어글리베이커리</h4>
+            <p>커피와 다양한 빵을 즐길 수 있는 베이커리 카페</p>
+        </div>
+        <div class="restaurant-card">
+            <h4>&#x1F354; 브루클린 더버거조인트</h4>
+            <p>수제버거의 매력에 빠질 수밖에 없는 곳</p>
+        </div>
+        <div class="restaurant-card">
+            <h4>&#x1F37A; 크래프트 한스</h4>
+            <p>크래프트 맥주를 즐기기 좋은 분위기</p>
+        </div>
+        <div class="restaurant-card">
+            <h4>&#x1F3DE; 망원한강공원</h4>
+            <p>도보 약 10분, 피크닉매트 이용 가능!</p>
+        </div>
+    </div>
+</section>
+
+<!-- 위치 & 교통편 -->
+<section id="location">
+    <h2>위치 및 교통편</h2>
+    <p class="section-desc">서울 마포구 희우정로16길 16</p>
+    <div class="location-content">
+        <div class="map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3163.0!2d126.905!3d37.555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDMzJzE4LjAiTiAxMjbCsDU0JzE4LjAiRQ!5e0!3m2!1sko!2skr!4v1"
+                allowfullscreen loading="lazy">
+            </iframe>
+        </div>
+        <div class="location-details">
+            <h3>오시는 길</h3>
+            <p><strong>주소:</strong> 서울특별시 마포구 희우정로16길 16</p>
+
+            <div class="transit-list" style="margin-top:20px;">
+                <h3>주요 거리</h3>
+                <div class="transit-item">
+                    <span class="transit-dest">홍대입구역</span>
+                    <span class="transit-time">도보 15분 / 지하철 6분</span>
+                </div>
+                <div class="transit-item">
+                    <span class="transit-dest">망원역 (6호선)</span>
+                    <span class="transit-time">도보 약 10분</span>
+                </div>
+                <div class="transit-item">
+                    <span class="transit-dest">망원한강공원</span>
+                    <span class="transit-time">도보 약 10분</span>
+                </div>
+                <div class="transit-item">
+                    <span class="transit-dest">이태원역</span>
+                    <span class="transit-time">지하철 약 22분 (6호선 직행)</span>
+                </div>
+                <div class="transit-item">
+                    <span class="transit-dest">명동역</span>
+                    <span class="transit-time">지하철 약 25~30분</span>
+                </div>
+                <div class="transit-item">
+                    <span class="transit-dest">신촌 세브란스병원</span>
+                    <span class="transit-time">차량 약 10분</span>
+                </div>
+            </div>
+            <p style="margin-top:16px; color:#4ca1af; font-weight:600;">공항 리무진 / 지하철 / 택시 / 전용 픽업 이용 가능</p>
+        </div>
+    </div>
+</section>
+
+<!-- 비상 연락처 -->
+<section id="emergency">
+    <h2>비상 연락처</h2>
+    <p class="section-desc">긴급 상황 시 아래 번호로 연락하세요</p>
+    <div class="emergency-grid">
+        <div class="emergency-card">
+            <div class="num">112</div>
+            <p>경찰 (Police)</p>
+        </div>
+        <div class="emergency-card">
+            <div class="num">119</div>
+            <p>응급/소방 (Emergency)</p>
+        </div>
+        <div class="emergency-card">
+            <div class="num">&#x1F4F1;</div>
+            <p>호스트 연락처<br>(예약 확정 후 안내)</p>
+        </div>
+    </div>
+</section>
+
+<!-- 예약 / 연락처 -->
+<section id="contact">
+    <h2>예약 및 연락처</h2>
+    <p class="section-desc">문의 및 예약은 아래 채널을 이용해주세요</p>
+    <div class="contact-grid">
+        <div class="contact-card">
+            <div class="icon">&#x1F4DE;</div>
+            <h4>전화 문의</h4>
+            <a href="tel:010-0000-0000">010-0000-0000</a>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;">운영시간: 09:00 ~ 21:00</p>
+        </div>
+        <div class="contact-card">
+            <div class="icon">&#x1F4AC;</div>
+            <h4>카카오톡</h4>
+            <a href="#">카카오톡 채널 바로가기</a>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;">실시간 상담 가능</p>
+        </div>
+        <div class="contact-card">
+            <div class="icon">&#x1F3E0;</div>
+            <h4>에어비앤비 예약</h4>
+            <a href="https://www.airbnb.co.kr/rooms/1543104413943284706" target="_blank">에어비앤비 바로가기</a>
+            <p style="margin-top:8px; color:#888; font-size:0.9rem;">간편 온라인 예약</p>
+        </div>
+    </div>
+</section>
+
+<!-- 푸터 -->
+<footer>
+    <p>이 공간이 여러분의 서울 여행을 더 특별하게 만들어주길 바랍니다.</p>
+    <p style="margin-top:8px;">Enjoy your stay at Oz House!</p>
+    <p style="margin-top:16px; opacity:0.6;">&copy; 2026 오즈 하우스. All rights reserved.</p>
+</footer>
+
+<script>
+    // 라이트박스
+    const images = [
+        'KakaoTalk_20260216_191144787_06.jpg',
+        'KakaoTalk_20260216_191144787_09.jpg',
+        'KakaoTalk_20260216_191144787_10.jpg',
+        'KakaoTalk_20260216_191144787_13.jpg',
+        'KakaoTalk_20260216_191144787_12.jpg',
+        'KakaoTalk_20260216_191144787_08.jpg',
+        'KakaoTalk_20260216_191144787_11.jpg',
+        'KakaoTalk_20260216_191144787_07.jpg',
+        'KakaoTalk_20260216_191144787_14.jpg',
+        'KakaoTalk_20260216_191144787_01.jpg',
+        'KakaoTalk_20260216_191144787_02.jpg',
+        'KakaoTalk_20260216_191144787.jpg'
+    ];
+    let currentIdx = 0;
+
+    function openLightbox(idx) {
+        currentIdx = idx;
+        document.getElementById('lightbox-img').src = images[idx];
+        document.getElementById('lightbox').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(e) {
+        if (e && e.target !== e.currentTarget && !e.target.classList.contains('lightbox-close')) return;
+        document.getElementById('lightbox').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function navLightbox(dir) {
+        currentIdx = (currentIdx + dir + images.length) % images.length;
+        document.getElementById('lightbox-img').src = images[currentIdx];
+    }
+
+    document.addEventListener('keydown', function(e) {
+        const lb = document.getElementById('lightbox');
+        if (!lb.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+        if (e.key === 'ArrowRight') navLightbox(1);
+    });
+
+    // 배달 가이드 언어 전환
+    function switchLang(lang) {
+        document.querySelectorAll('.delivery-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+        document.getElementById('lang-' + lang).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
