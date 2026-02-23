@@ -163,20 +163,6 @@
         .guide-card li { margin-bottom: 8px; font-size: 0.95rem; }
         .guide-card .tip { margin-top: 12px; padding: 12px; background: #e8f4f8; border-radius: 8px; font-size: 0.85rem; color: #3a7a8a; }
 
-        /* 배달 가이드 */
-        .delivery-lang-tabs { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
-        .lang-tab { padding: 10px 20px; border: 2px solid #ddd; border-radius: 24px; background: #fff; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: #666; transition: all 0.2s; }
-        .lang-tab:hover { border-color: #4ca1af; color: #4ca1af; }
-        .lang-tab.active { background: #4ca1af; color: #fff; border-color: #4ca1af; }
-        .delivery-content { display: none; }
-        .delivery-content.active { display: block; }
-        .delivery-steps { display: flex; flex-direction: column; gap: 20px; max-width: 700px; margin: 0 auto; }
-        .delivery-step { display: flex; gap: 20px; align-items: flex-start; background: #f7fafb; border-radius: 16px; padding: 24px; }
-        .step-num { flex-shrink: 0; width: 40px; height: 40px; background: #4ca1af; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; }
-        .step-text h4 { color: #2c3e50; margin-bottom: 4px; }
-        .step-text p { color: #666; font-size: 0.95rem; }
-        .step-text .note { margin-top: 6px; color: #e74c3c; font-size: 0.85rem; font-weight: 600; }
-
         /* 맛집 추천 */
         .restaurant-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .restaurant-card { background: #f7fafb; border-radius: 16px; padding: 24px; }
@@ -248,7 +234,7 @@
             <li><a href="#rules" data-i18n="nav_rules">이용규칙</a></li>
             <li><a href="#facilities" data-i18n="nav_facilities">시설</a></li>
             <li><a href="#guide" data-i18n="nav_guide">이용가이드</a></li>
-            <li><a href="#delivery" data-i18n="nav_delivery">배달</a></li>
+
             <li><a href="#food" data-i18n="nav_food">맛집</a></li>
             <li><a href="#location" data-i18n="nav_location">위치</a></li>
             <li><a href="#contact" data-i18n="nav_contact">예약</a></li>
@@ -258,6 +244,10 @@
             <button class="site-lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
             <button class="site-lang-btn" data-lang="zh" onclick="setLang('zh')">ZH</button>
             <button class="site-lang-btn" data-lang="ja" onclick="setLang('ja')">JA</button>
+            <button class="site-lang-btn" data-lang="id" onclick="setLang('id')">ID</button>
+            <button class="site-lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+            <button class="site-lang-btn" data-lang="th" onclick="setLang('th')">TH</button>
+            <button class="site-lang-btn" data-lang="vi" onclick="setLang('vi')">VI</button>
         </div>
     </div>
 </nav>
@@ -618,190 +608,6 @@
     </div>
 </section>
 
-<!-- 배달 주문 가이드 -->
-<section id="delivery">
-    <h2 data-i18n="delivery_title">배달 주문 방법</h2>
-    <p class="section-desc">
-        <span data-i18n="delivery_desc">태블릿 PC의 배달의민족 앱으로 간편하게 주문하세요</span><br>
-        <strong data-i18n="delivery_addr">배달 주소: 서울 마포구 희우정로16길 16 / 건물 1층 앞에서 수령</strong>
-    </p>
-
-    <div class="delivery-lang-tabs">
-        <button class="lang-tab active" onclick="switchLang('ko')">한국어</button>
-        <button class="lang-tab" onclick="switchLang('en')">English</button>
-        <button class="lang-tab" onclick="switchLang('zh')">中文</button>
-        <button class="lang-tab" onclick="switchLang('ja')">日本語</button>
-    </div>
-
-    <!-- 한국어 -->
-    <div class="delivery-content active" id="lang-ko">
-        <div class="delivery-steps">
-            <div class="delivery-step">
-                <div class="step-num">1</div>
-                <div class="step-text">
-                    <h4>배달의민족 앱 선택</h4>
-                    <p>태블릿 PC에서 배달의민족 어플을 선택하세요.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">2</div>
-                <div class="step-text">
-                    <h4>메뉴 선택</h4>
-                    <p>원하시는 카테고리에서 메뉴를 선택합니다.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">3</div>
-                <div class="step-text">
-                    <h4>장바구니에 담기</h4>
-                    <p>원하시는 메뉴를 담으시고 표시된 곳을 클릭하세요.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">4</div>
-                <div class="step-text">
-                    <h4>배달 방식 선택</h4>
-                    <p>배달 방식 중 <strong>가게배달</strong>(표시된 곳)을 클릭하세요.</p>
-                    <p class="note">* 해당 선택란이 없으면 배달이 불가능합니다.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">5</div>
-                <div class="step-text">
-                    <h4>현금 결제 선택</h4>
-                    <p>결제 방식 중 <strong>만나서 현금결제</strong>(표시된 곳)를 클릭하세요.<br>배달이 도착하면 기사님께 현금으로 결제하시면 됩니다.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- English -->
-    <div class="delivery-content" id="lang-en">
-        <div class="delivery-steps">
-            <div class="delivery-step">
-                <div class="step-num">1</div>
-                <div class="step-text">
-                    <h4>Select the Baedal Minjok App</h4>
-                    <p>Please select the Baedal Minjok app on the tablet PC.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">2</div>
-                <div class="step-text">
-                    <h4>Select a Menu</h4>
-                    <p>Select a menu from your desired category.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">3</div>
-                <div class="step-text">
-                    <h4>Add to Cart</h4>
-                    <p>Add the items you want to your cart and click the highlighted area.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">4</div>
-                <div class="step-text">
-                    <h4>Select Delivery Method</h4>
-                    <p>Please select <strong>"Store Delivery"</strong> (the highlighted option) under the delivery method.</p>
-                    <p class="note">* If this option is not available, delivery is not possible.</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">5</div>
-                <div class="step-text">
-                    <h4>Pay in Cash</h4>
-                    <p>Under the payment method, please select <strong>"Pay in Cash upon Delivery"</strong>.<br>When the delivery arrives, please pay the driver in cash.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 中文 -->
-    <div class="delivery-content" id="lang-zh">
-        <div class="delivery-steps">
-            <div class="delivery-step">
-                <div class="step-num">1</div>
-                <div class="step-text">
-                    <h4>选择外卖民族应用</h4>
-                    <p>请在平板电脑上选择"外卖民族"应用。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">2</div>
-                <div class="step-text">
-                    <h4>选择菜单</h4>
-                    <p>在您想要的分类中选择菜单。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">3</div>
-                <div class="step-text">
-                    <h4>加入购物车</h4>
-                    <p>将您想要的菜单加入购物车，然后点击标示的区域。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">4</div>
-                <div class="step-text">
-                    <h4>选择配送方式</h4>
-                    <p>在配送方式中请选择<strong>"商家配送"</strong>（标示的位置）。</p>
-                    <p class="note">* 如果没有该选项，则无法配送。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">5</div>
-                <div class="step-text">
-                    <h4>现金支付</h4>
-                    <p>在支付方式中请选择<strong>"当面现金支付"</strong>（标示的位置）。<br>外卖送达后，请直接以现金支付给配送员。</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 日本語 -->
-    <div class="delivery-content" id="lang-ja">
-        <div class="delivery-steps">
-            <div class="delivery-step">
-                <div class="step-num">1</div>
-                <div class="step-text">
-                    <h4>ペダルミンジョクアプリを選択</h4>
-                    <p>タブレットPCで「ペダルミンジョク」アプリを選択してください。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">2</div>
-                <div class="step-text">
-                    <h4>メニューを選択</h4>
-                    <p>ご希望のカテゴリーからメニューを選択してください。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">3</div>
-                <div class="step-text">
-                    <h4>カートに入れる</h4>
-                    <p>ご希望のメニューをカートに入れ、表示されている箇所をクリックしてください。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">4</div>
-                <div class="step-text">
-                    <h4>配送方法を選択</h4>
-                    <p>配送方法の中から<strong>「店舗配達」</strong>（表示されている箇所）を選択してください。</p>
-                    <p class="note">* この選択肢がない場合、配達はできません。</p>
-                </div>
-            </div>
-            <div class="delivery-step">
-                <div class="step-num">5</div>
-                <div class="step-text">
-                    <h4>現金払い</h4>
-                    <p>お支払い方法の中から<strong>「配達時に現金払い」</strong>を選択してください。<br>配達到着後、配達員に現金でお支払いください。</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- 주변 맛집 & 명소 -->
 <section id="food">
     <h2 data-i18n="food_title">주변 맛집 & 명소 추천</h2>
@@ -979,13 +785,6 @@
         if (e.key === 'ArrowRight') navLightbox(1);
     });
 
-    // 배달 가이드 언어 전환
-    function switchLang(lang) {
-        document.querySelectorAll('.delivery-content').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
-        document.getElementById('lang-' + lang).classList.add('active');
-        event.target.classList.add('active');
-    }
 </script>
 
 </body>
