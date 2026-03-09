@@ -57,21 +57,21 @@
         }
         nav a:hover { color: #4ca1af; background: #f0f8fa; }
 
-        /* 언어 선택 버튼 */
-        .lang-selector { display: flex; gap: 4px; padding: 8px 12px; }
-        .site-lang-btn {
-            padding: 4px 10px;
+        /* 언어 선택 드롭다운 */
+        .lang-selector { display: flex; align-items: center; padding: 8px 12px; }
+        .lang-select {
+            padding: 6px 28px 6px 10px;
             border: 1.5px solid #ddd;
             border-radius: 14px;
-            background: #fff;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E") no-repeat right 10px center;
+            appearance: none;
             cursor: pointer;
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             font-weight: 600;
-            color: #888;
-            transition: all 0.2s;
+            color: #2c3e50;
+            transition: border-color 0.2s;
         }
-        .site-lang-btn:hover { border-color: #4ca1af; color: #4ca1af; }
-        .site-lang-btn.active { background: #4ca1af; color: #fff; border-color: #4ca1af; }
+        .lang-select:hover, .lang-select:focus { border-color: #4ca1af; outline: none; }
 
         /* 섹션 공통 */
         section { padding: 64px 20px; max-width: 1000px; margin: 0 auto; }
@@ -240,16 +240,18 @@
             <li><a href="#contact" data-i18n="nav_contact">예약</a></li>
         </ul>
         <div class="lang-selector">
-            <button class="site-lang-btn active" data-lang="ko" onclick="setLang('ko')">KO</button>
-            <button class="site-lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-            <button class="site-lang-btn" data-lang="zh" onclick="setLang('zh')">ZH</button>
-            <button class="site-lang-btn" data-lang="ja" onclick="setLang('ja')">JA</button>
-            <button class="site-lang-btn" data-lang="id" onclick="setLang('id')">ID</button>
-            <button class="site-lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
-            <button class="site-lang-btn" data-lang="th" onclick="setLang('th')">TH</button>
-            <button class="site-lang-btn" data-lang="vi" onclick="setLang('vi')">VI</button>
-            <button class="site-lang-btn" data-lang="fr" onclick="setLang('fr')">FR</button>
-            <button class="site-lang-btn" data-lang="it" onclick="setLang('it')">IT</button>
+            <select id="lang-select" class="lang-select" onchange="setLang(this.value)">
+                <option value="ko">🌐 한국어</option>
+                <option value="en">🌐 English</option>
+                <option value="zh">🌐 中文</option>
+                <option value="ja">🌐 日本語</option>
+                <option value="id">🌐 Indonesia</option>
+                <option value="es">🌐 Español</option>
+                <option value="th">🌐 ภาษาไทย</option>
+                <option value="vi">🌐 Tiếng Việt</option>
+                <option value="fr">🌐 Français</option>
+                <option value="it">🌐 Italiano</option>
+            </select>
         </div>
     </div>
 </nav>

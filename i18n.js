@@ -254,10 +254,9 @@ function setLang(lang) {
             el.innerHTML = T[key][lang];
         }
     });
-    // 언어 선택 버튼 활성화
-    document.querySelectorAll('.site-lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-    });
+    // 드롭다운 선택 동기화
+    const sel = document.getElementById('lang-select');
+    if (sel) sel.value = lang;
     localStorage.setItem('oz-lang', lang);
 }
 
