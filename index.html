@@ -32,7 +32,7 @@
             filter: brightness(0.55);
             z-index: -1;
         }
-        .hero h1 { font-size: 3.5rem; letter-spacing: 4px; margin-bottom: 16px; text-shadow: 0 2px 12px rgba(0,0,0,0.4); }
+        .hero-logo { max-width: 320px; width: 70%; margin-bottom: 16px; filter: drop-shadow(0 2px 12px rgba(0,0,0,0.4)); }
         .hero p { font-size: 1.2rem; opacity: 0.95; max-width: 650px; text-shadow: 0 1px 6px rgba(0,0,0,0.3); }
         .hero .badge { margin-top: 20px; display: inline-block; background: rgba(255,255,255,0.2); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 24px; font-size: 0.95rem; }
 
@@ -201,7 +201,7 @@
         /* 반응형 */
         @media (max-width: 768px) {
             .hero { height: 60vh; min-height: 350px; }
-            .hero h1 { font-size: 2.2rem; }
+            .hero-logo { max-width: 220px; }
             .hero p { font-size: 0.95rem; }
             nav a { padding: 10px 12px; font-size: 0.8rem; }
             section { padding: 48px 16px; }
@@ -218,7 +218,7 @@
 <!-- 히어로 -->
 <header class="hero">
     <div class="hero-bg"></div>
-    <h1>오즈 하우스</h1>
+    <img src="images/OZHOUSE_LOGO.PNG" alt="오즈 하우스" class="hero-logo">
     <p data-i18n="hero_sub">서울 마포 망원 | 독채 전체 | 최대 15인 | 방 4 · 욕실 2.5 · 거실 2</p>
     <div class="badge">홍대 6분 / 망리단길 / 망원한강공원</div>
 </header>
